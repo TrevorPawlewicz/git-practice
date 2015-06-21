@@ -3,8 +3,10 @@
 ////////////////////////////////////////////////
 'use strict';
 
+
+
 function getInput() {
-    console.log("Please choose either 'rock', 'paper', or 'scissors'.")
+    console.log("Please choose either 'rock', 'paper', or 'scissors'.");
     return prompt();
 }
 function randomPlay() {
@@ -25,22 +27,26 @@ function getPlayerMove(move) {
     // Write an expression that operates on a variable called `move`
     // If a `move` has a value, your expression should evaluate to that value.
     // However, if `move` is not specified / is null, your expression should equal `getInput()`.
-    	if (move === null) {
-		getInput();
+    var move;
+    	if (move != null) {
+    		move = move;
     	} else {
-    		return move;
+		move = getInput();
     	}
+    	return move;
 }
 
 function getComputerMove(move) {
     // Write an expression that operates on a variable called `move`
     // If a `move` has a value, your expression should evaluate to that value.
     // However, if `move` is not specified / is null, your expression should equal `randomPlay()`.
-    	if (move === null) {
-		randomPlay();
+    var move;
+    	if (move != null) {
+    		move = move;
     	} else {
-    		return move;
+		move = randomPlay();
     	}
+    	return move;
 }
 
 function getWinner(playerMove,computerMove) {
@@ -83,24 +89,62 @@ function playToFive() {
     console.log("Let's play Rock, Paper, Scissors");
     var playerWins = 0;
     var computerWins = 0;
-    // Write code that plays 'Rock, Paper, Scissors' until either the player or the computer has won five times.
+    var playAgain = "y";
+    // Write code that plays 'Rock, Paper, Scissors' until either the player or the 
+    // computer has won five times.
     /* YOUR CODE HERE */
+    var playerMove;
+    var computerMove;
+    var currentWinner;
     
-	while ((playerWins === 5) || (computerWins === 5)) {
+    if ((playAgain === "y" || playAgain ==="Y")) {
     
-    		getPlayerMove(move);
-    		getComputerMove(move);
-    		getWinner(playerMove,computerMove);
-    		
-    		console.log('Player chose ' + playerMove + ' while Computer chose ' + computerMove);  
-    		console.log('The score is currently ' + playerWins + ' to ' + computerWins + '\n');
-    }
+	    while ((playerWins <= 5) || (computerWins <= 5)) {
     
-    return [playerWins, computerWins];
+			playerMove = getPlayerMove();
+			if (playerMove === null) {
+				cancelGame();
+				break;
+			}
+			console.log(playerMove);
+			computerMove = getComputerMove();
+			console.log(computerMove);
+			currentWinner = getWinner(playerMove,computerMove);
+		
+			if (currentWinner === "player") {
+				playerWins += 1;
+			} else if (currentWinner === "computer") {
+				computerWins += 1;
+			}
+		
+			console.log('Player chose ' + playerMove + ' while Computer chose ' + computerMove);
+			console.log("the winner is " + currentWinner);  
+			console.log('The score is currently player ' + playerWins + ' to computer ' + computerWins + '\n');
+		
+			if ((playerWins === 5) || (computerWins === 5)) {
+				playAgain = prompt("Game Over. Play again? 'y/n'");
+				
+				if ((playAgain === "y" || playAgain ==="Y")) {
+				     playerWins = 0;
+				     computerWins = 0;
+				} else {
+					break;
+				}
+	    		}
+	    	}
+    } else {
+    
+    		return [playerWins, computerWins];
+    	}
 }
 
+playToFive();
 
 
+function cancelGame() {
+	alert("End Game Now");
+	return 0;
+};
 
 
 
